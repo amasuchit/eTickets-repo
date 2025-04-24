@@ -5,4 +5,40 @@
 }
 
 
-<h1>List of Actors</h1>
+
+<div class="row">
+
+	<div class="col-md-8 offset-md-2">
+			<h1 class="my-4" style="text-align:center;">List of Actors</h1>
+
+		<table class="table">
+			<thead  class="table-primary">
+				<tr>
+					<th>Profile Picture URL</th>
+					<th>@Html.DisplayNameFor(Model=>Model.FullName)</th>
+					<th>@Html.DisplayNameFor(Model=>Model.Bio)</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach(var actor in Model)
+				{
+					<tr>
+							<td class="align-middle">
+								<img class="rounded-circle" src="@actor.ProfilePictureURL" alt="Profile Picture" style="width: 100px; height: 100px;" />
+							</td>
+								<td class="align-middle">@actor.FullName</td>
+								<td class="align-middle">@actor.Bio</td>
+								<td class="align-middle">
+											<a asp-action="Edit" asp-route-id="@actor.Id" class="btn btn-outline-primary btn-sm mx-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+											<a asp-action="Detail" asp-route-id="@actor.Id" class="btn btn-outline-secondary btn-sm mx-1"><i class="fa-solid fa-circle-info"></i> Detail</a>
+										<a asp-action="Delete" asp-route-id="@actor.Id" class="btn btn-outline-danger btn-sm mx-1"><i class="fa-solid fa-trash"></i> Delete</a>
+							</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+
+
+</div>
