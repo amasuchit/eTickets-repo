@@ -5,7 +5,7 @@
 }
 
 <link rel="stylesheet" href="~/css/card.css" asp-append-version="true" />
-<div class="row">
+<div class="row my-5">
 	@foreach (var movie in Model)
 	{
 				 <div class="col-md-4 col-xs-6 border-primary mb-3">
@@ -31,8 +31,8 @@
 									<p class="card-text">@movie.Description</p>
 									<p class="card-text"><b>Cinema: </b>@movie.Cinema.Name</p>
 									<p class="card-text"><b>Category: </b>@movie.MovieCategory</p>
-									<p class="card-text"><b>Start Date: </b>@movie.StartDate.ToString("dd MMM yy")</p>
-									<p class="card-text"><b>End Date: </b>@movie.EndDate.ToString("dd MMM yy")</p>
+									<p class="card-text"><b>Start Date: </b>@movie.StartDate.ToString("dd MMM, yyyy")</p>
+									<p class="card-text"><b>End Date: </b>@movie.EndDate.ToString("dd MMM, yyyy")</p>
 									<p class="card-text ">
 										<b>Status: </b>
 								@if (DateTime.Now >= movie.StartDate && DateTime.Now <= movie.EndDate)
@@ -55,13 +55,13 @@
 								<div class="card-footer ">
 									<p class="card-text">
 										<a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@movie.Id">
-											<i class="bi bi-eye-fill"></i> Show Details
+												<i class="fa-solid fa-circle-info"></i> Show Details
 										</a>
 										<a class="btn btn-success text-white @((DateTime.Now > movie.EndDate) ? "disabled" : "")" 
 										   asp-controller="Orders" 
 										   asp-action="AddItemToShoppingCart" 
 										   asp-route-id="@movie.Id">
-										<i class="bi bi-cart-plus"></i> Add to Cart (Price: NRs.  @movie.Price)</a>
+											<i class="fa-solid fa-cart-plus"></i> Add to Cart (Price: NRs.  @movie.Price)</a>
 									</p>
 								</div>
 							</div>
