@@ -29,7 +29,8 @@ namespace eTickets.Data.Services
 
         public Actor GetbyId(int id)
         {
-            throw new NotImplementedException();
+            var actor= context.Actors.FirstOrDefault(a => a.Id == id);
+            return actor;
         }
 
         public Actor Update(int id, Actor newActor)

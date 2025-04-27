@@ -17,7 +17,7 @@
 										<h5 class="card-title">
 									@movie.Name
 
-										<a class="text-white float-right" asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id"><i class="bi bi-pencil-square"></i></a>
+											<a class="text-white float-end" asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id"><i class="fa-solid fa-pen-to-square"></i></a>
 
 										</h5>
 									</p>
@@ -37,15 +37,15 @@
 										<b>Status: </b>
 								@if (DateTime.Now >= movie.StartDate && DateTime.Now <= movie.EndDate)
 								{
-													<span class="badge bg-success text-white">AVAILABLE</span>
+															<span class="badge bg-success text-white">AVAILABLE</span>
 								}
 								else if (DateTime.Now > movie.EndDate)
 								{
-													<span class="badge bg-danger text-white">EXPIRED</span>
+															<span class="badge bg-danger  text-white">EXPIRED</span>
 								}
 								else
 								{
-													<span class="badge bg-primary text-white">UPCOMING</span>
+															<span class="badge bg-primary  text-white">UPCOMING</span>
 								}
 									</p>
 
@@ -55,13 +55,13 @@
 								<div class="card-footer ">
 									<p class="card-text">
 										
-										<a class="btn btn-success text-white @((DateTime.Now > movie.EndDate) ? "disabled" : "")" 
+										<a class="btn btn-success btn-sm text-white @((DateTime.Now > movie.EndDate) ? "disabled" : "")" 
 										   asp-controller="Orders" 
 										   asp-action="AddItemToShoppingCart" 
 										   asp-route-id="@movie.Id">
 											<i class="fa-solid fa-cart-plus"></i> Add to Cart (Price: NRs.  @movie.Price)</a>
 
-												<a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@movie.Id">
+												<a class="btn btn-outline-primary btn-sm float-end" asp-action="Details" asp-route-id="@movie.Id">
 													<i class="fa-solid fa-circle-info"></i> Show Details
 											</a>
 									</p>
