@@ -17,7 +17,8 @@
 		</p>
 		<div class="row">
 			<div class="col-md-8 offset-2">
-
+				<form asp-action="Delete" asp-controller="Actor" method="Post" asp-route-id="@Model.Id">
+					@Html.AntiForgeryToken()
 					<div class="form-class mt-2">
 						<label class="fw-bold">Profile Picture Preview:</label>
 						<img id="ProfilePicturePreview" class="rounded-circle mx-4" style="width: 200px; height: 200px; ; object-fit: cover;"/>
@@ -39,15 +40,11 @@
 						<input asp-for="@Model.Bio" class="form-control" readonly> 
 						<span asp-validation-for="@Model.Bio" class="text-danger"></span>
 					</div>
-
-					<div class="form-class mt-4 text-center">
-						<a asp-action="Index" class="btn btn-outline-info mx-2"> <i class="fa-solid fa-circle-arrow-left"></i> No, Back to list</a>
-					<a asp-action="Delete" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i> Delete</a>
-					
+				<div class="form-class mt-4 text-center">
+						<a asp-controller="Actor" asp-action="Index" class="btn btn-outline-info mx-2"> <i class="fa-solid fa-circle-arrow-left"></i> No, Back to list</a>
+					<button type="submit" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i> Delete</button>
 					</div>
-
-
-
+					</form>
 			</div>
 
 		</div>

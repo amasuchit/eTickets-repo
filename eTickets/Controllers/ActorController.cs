@@ -18,6 +18,7 @@ namespace eTickets.Controllers
             this.service = service;
         }
 
+
         public async Task<IActionResult> Index()
         {
             var actorsinDb = await service.GetAll();
@@ -37,12 +38,14 @@ namespace eTickets.Controllers
 
         }
 
+
         [HttpGet]
         public IActionResult Create()
         {
 
             return View();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Create([Bind("FullName,ProfilePictureURL,Bio")] ActorViewModel actorViewModel)
@@ -59,6 +62,7 @@ namespace eTickets.Controllers
                 return View(actorViewModel);
             }
             await service.AddAsync(actor);
+            TempData["CreateMessage"] = "Actor's Record added Successfully";
             return RedirectToAction(nameof(Index));
         }
 
@@ -86,6 +90,48 @@ namespace eTickets.Controllers
 
 
         [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var datafromdb = await service.GetbyIdAsync(id);
+            if (datafromdb == null)
+            {
+                return NotFound();
+            }
+            var actordetail = new ActorViewModel()
+            {
+                Id = datafromdb.Id,
+                FullName = datafromdb.FullName,
+                ProfilePictureURL = datafromdb.ProfilePictureURL,
+                Bio = datafromdb.Bio
+            };
+
+            return View(actordetail);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ActorViewModel actorViewModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(actorViewModel);
+            }
+            var actor = new Actor()
+            {
+                Id = actorViewModel.Id,
+                ProfilePictureURL=actorViewModel.ProfilePictureURL,
+                FullName = actorViewModel.FullName,
+                Bio = actorViewModel.Bio
+            };
+
+            await service.UpdateAsync(actor);
+            TempData["EditMessage"] = "Actor's Record updated Successfully";
+            return RedirectToAction(nameof(Index));
+            
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             if (id == 0)
@@ -108,7 +154,9 @@ namespace eTickets.Controllers
 
         }
 
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -122,7 +170,8 @@ namespace eTickets.Controllers
                 return NotFound();
             }
             await service.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            TempData["DeleteMessage"] = "Actor's Record deleted Successfully";
+            return Redirect("/Actor/Index");
         }
 
     }

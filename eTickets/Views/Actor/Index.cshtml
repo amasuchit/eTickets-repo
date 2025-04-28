@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<ActorViewModel>
 
 @{
-	ViewData["Title"]="Actors";
+	ViewData["Title"] = "Actors";
 }
 
 
 <style>
 	.vertical-line {
-		border-right: 2px solid #000;
+	border-right: 2px solid #F2F2F2;
 	}
 </style>
 
@@ -15,8 +15,41 @@
 <div class="row">
 
 	<div class="col-md-8 offset-md-2">
-			<h1 class="my-4" style="text-align:center;">List of Actors</h1>
+		<h1 class="my-4" style="text-align:center;">List of Actors</h1>
 
+
+		<div>
+
+
+			@if (TempData["CreateMessage"] != null)
+			{
+										<div class="alert alert-success alert-dismissible fade show" role="alert">
+					  <strong>Success!</strong> @TempData["CreateMessage"]
+			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+			}
+			@if (TempData["EditMessage"] != null)
+			{
+											<div class="alert alert-success alert-dismissible fade show" role="alert">
+						  <strong>Success!</strong> @TempData["EditMessage"]
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			}
+			@if (TempData["DeleteMessage"] != null)
+			{
+
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			  <strong>Success!</strong> @TempData["DeleteMessage"]
+		  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+			}
+
+
+
+
+
+			</div>
 		<table class="table text-center align-middle">
 			<thead  class="table-primary">
 				<tr>
@@ -27,23 +60,23 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach(var actor in Model)
+				@foreach (var actor in Model)
 				{
-					<tr>
-									<td class="vertical-line">
-									<img class="rounded-circle" src="@actor.ProfilePictureURL" alt="Profile Picture" style="width: 100px; height: 100px; ; object-fit: cover;" />
-							</td>
-											<td class="vertical-line">@actor.FullName</td>
-										<td class="vertical-line">@actor.Bio</td>
-										<td class="vertical-line">
-											<div class="d-flex justify-content-center gap-2">
-											<a asp-action="Edit" asp-route-id="@actor.Id" class="btn btn-outline-primary btn-sm "><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-											<a asp-action="Details" asp-route-id="@actor.Id" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-circle-info"></i> Detail</a>
-											<a asp-action="Delete" asp-route-id="@actor.Id" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</a>
-											</div>
-											
-							</td>
-					</tr>
+							<tr>
+											<td class="vertical-line">
+											<img class="rounded-circle" src="@actor.ProfilePictureURL" alt="Profile Picture" style="width: 100px; height: 100px; ; object-fit: cover;" />
+									</td>
+													<td class="vertical-line">@actor.FullName</td>
+												<td class="vertical-line">@actor.Bio</td>
+												<td class="vertical-line">
+													<div class="d-flex justify-content-center gap-2">
+													<a asp-action="Edit" asp-route-id="@actor.Id" class="btn btn-outline-primary btn-sm "><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+													<a asp-action="Details" asp-route-id="@actor.Id" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-circle-info"></i> Detail</a>
+													<a asp-action="Delete" asp-route-id="@actor.Id" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</a>
+													</div>
+
+									</td>
+							</tr>
 				}
 			</tbody>
 		</table>
@@ -53,7 +86,6 @@
 </div>
 
 
-<div style="position:fixed; right:50px; button:50px;" class="row">
-	
-		<a asp-action="Create" class="btn btn-outline-success float-end"> Add New <i class="fa-solid fa-user-plus"></i></a>
+<div style="position:fixed; right:65px; bottom:65px;" class="row">
+	<a asp-action="Create" class="btn btn-outline-success"> Add New <i class="fa-solid fa-user-plus"></i></a>
 </div>
