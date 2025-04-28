@@ -1,9 +1,15 @@
-﻿@model IEnumerable<Actor>
+﻿@model IEnumerable<ActorViewModel>
 
 @{
 	ViewData["Title"]="Actors";
 }
 
+
+<style>
+	.vertical-line {
+		border-right: 2px solid #000;
+	}
+</style>
 
 
 <div class="row">
@@ -11,28 +17,31 @@
 	<div class="col-md-8 offset-md-2">
 			<h1 class="my-4" style="text-align:center;">List of Actors</h1>
 
-		<table class="table">
+		<table class="table text-center align-middle">
 			<thead  class="table-primary">
 				<tr>
-					<th>Profile Picture URL</th>
-					<th class="align-middle">@Html.DisplayNameFor(Model => Model.FullName)</th>
-					<th class="align-middle">@Html.DisplayNameFor(Model => Model.Bio)</th>
-					<th>Action</th>
+					<th class="vertical-line">Profile Picture</th>
+					<th class="vertical-line">@Html.DisplayNameFor(Model => Model.FullName)</th>
+					<th class="vertical-line">@Html.DisplayNameFor(Model => Model.Bio)</th>
+					<th class="vertical-line">Action</th>
 				</tr>
 			</thead>
 			<tbody>
 				@foreach(var actor in Model)
 				{
 					<tr>
-							<td class="align-middle">
+									<td class="vertical-line">
 									<img class="rounded-circle" src="@actor.ProfilePictureURL" alt="Profile Picture" style="width: 100px; height: 100px; ; object-fit: cover;" />
 							</td>
-								<td class="align-middle">@actor.FullName</td>
-								<td class="align-middle">@actor.Bio</td>
-								<td class="align-middle">
-											<a asp-action="Edit" asp-route-id="@actor.Id" class="btn btn-outline-primary btn-sm mx-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-											<a asp-action="Detail" asp-route-id="@actor.Id" class="btn btn-outline-secondary btn-sm mx-1"><i class="fa-solid fa-circle-info"></i> Detail</a>
-										<a asp-action="Delete" asp-route-id="@actor.Id" class="btn btn-outline-danger btn-sm mx-1"><i class="fa-solid fa-trash"></i> Delete</a>
+											<td class="vertical-line">@actor.FullName</td>
+										<td class="vertical-line">@actor.Bio</td>
+										<td class="vertical-line">
+											<div class="d-flex justify-content-center gap-2">
+											<a asp-action="Edit" asp-route-id="@actor.Id" class="btn btn-outline-primary btn-sm "><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+											<a asp-action="Details" asp-route-id="@actor.Id" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-circle-info"></i> Detail</a>
+											<a asp-action="Delete" asp-route-id="@actor.Id" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</a>
+											</div>
+											
 							</td>
 					</tr>
 				}
