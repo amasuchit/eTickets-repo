@@ -15,8 +15,8 @@
 			<thead  class="table-primary">
 				<tr>
 					<th>Profile Picture URL</th>
-					<th>@Html.DisplayNameFor(Model=>Model.FullName)</th>
-					<th>@Html.DisplayNameFor(Model=>Model.Bio)</th>
+					<th class="align-middle">@Html.DisplayNameFor(Model => Model.FullName)</th>
+					<th class="align-middle">@Html.DisplayNameFor(Model => Model.Bio)</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -25,7 +25,7 @@
 				{
 					<tr>
 							<td class="align-middle">
-								<img class="rounded-circle" src="@actor.ProfilePictureURL" alt="Profile Picture" style="width: 100px; height: 100px;" />
+									<img class="rounded-circle" src="@actor.ProfilePictureURL" alt="Profile Picture" style="width: 100px; height: 100px; ; object-fit: cover;" />
 							</td>
 								<td class="align-middle">@actor.FullName</td>
 								<td class="align-middle">@actor.Bio</td>
@@ -41,4 +41,10 @@
 	</div>
 
 
+</div>
+
+
+<div style="position:fixed; right:50px; button:50px;" class="row">
+	
+		<a asp-action="Create" class="btn btn-outline-success float-end"> Add New <i class="fa-solid fa-user-plus"></i></a>
 </div>
