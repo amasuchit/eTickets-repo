@@ -21,7 +21,7 @@ namespace eTickets.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var actorsinDb = await service.GetAll();
+            var actorsinDb = await service.GetAllAsync();
             if (actorsinDb == null)
             {
                 return NotFound();
