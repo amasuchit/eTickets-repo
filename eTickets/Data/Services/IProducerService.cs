@@ -3,7 +3,7 @@ using eTickets.Models;
 
 namespace eTickets.Data.Services
 {
-    public interface IActorService : IEntityBaseRepository<Actor>
+    public interface IProducerService: IEntityBaseRepository<Producer>
     {
     }
 }

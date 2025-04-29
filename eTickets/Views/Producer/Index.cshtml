@@ -6,35 +6,76 @@
 }
 
 
+<style>
+	.vertical-line {
+	border-right: 2px solid #F2F2F2;
+	}
+</style>
+
+
+
+
+
 <div class="row">
 
 	<div class="col-md-8 offset-md-2">
 			<h1 class="my-4" style="text-align:center;">List of Producers</h1>
 
+
+		@if (TempData["CreateMessage"] != null)
+		{
+												<div class="alert alert-success alert-dismissible fade show" role="alert">
+							  <strong>Success!</strong> @TempData["CreateMessage"]
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+		}
+		@if (TempData["EditMessage"] != null)
+		{
+													<div class="alert alert-success alert-dismissible fade show" role="alert">
+								  <strong>Success!</strong> @TempData["EditMessage"]
+						  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+		}
+		@if (TempData["DeleteMessage"] != null)
+		{
+
+									<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					  <strong>Success!</strong> @TempData["DeleteMessage"]
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+
+		}
+
+
+
+
 		<table class="table">
-			<thead  class="table-primary">
+			<thead  class="table-primary text-center align-middle ">
 				<tr>
-					<th>Profile Picture URL</th>
-					<th>@Html.DisplayNameFor(Model => Model.FullName)</th>
-					<th>@Html.DisplayNameFor(Model => Model.Bio)</th>
-					<th>Action</th>
+					<th class="vertical-line">Profile Picture</th>
+					<th class="vertical-line">@Html.DisplayNameFor(Model => Model.FullName)</thclass>
+					<th class="vertical-line">@Html.DisplayNameFor(Model => Model.Bio)</th>
+					<th class="vertical-line">Action</th>
 				</tr>
 			</thead>
-			<tbody>
-				@foreach (var actor in Model)
+			<tbody class="text-center align-middle">
+				@foreach (var producer in Model)
 				{
-						<tr>
-								<td class="align-middle">
-									<img class="rounded-circle" src="@actor.ProfilePictureURL" alt="Profile Picture" style="width: 100px; height: 100px;" />
-								</td>
-									<td class="align-middle">@actor.FullName</td>
-									<td class="align-middle">@actor.Bio</td>
-									<td class="align-middle">
-												<a asp-action="Edit" asp-route-id="@actor.Id" class="btn btn-outline-primary btn-sm mx-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-												<a asp-action="Detail" asp-route-id="@actor.Id" class="btn btn-outline-secondary btn-sm mx-1"><i class="fa-solid fa-circle-info"></i> Detail</a>
-											<a asp-action="Delete" asp-route-id="@actor.Id" class="btn btn-outline-danger btn-sm mx-1"><i class="fa-solid fa-trash"></i> Delete</a>
-								</td>
-						</tr>
+							<tr>
+										<td class="vertical-line">
+										<img class="rounded-circle" src="@producer.ProfilePictureURL" alt="Profile Picture" style="width: 100px; height: 100px;" />
+									</td>
+										<td class="vertical-line">@producer.FullName</td>
+											<td class="vertical-line">@producer.Bio</td>
+											<td class="vertical-line">
+												<div class="d-flex justify-content-center gap-2">
+														<a asp-action="Edit" asp-route-id="@producer.Id" class="btn btn-outline-primary btn-sm mx-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+														<a asp-action="Details" asp-route-id="@producer.Id" class="btn btn-outline-secondary btn-sm mx-1"><i class="fa-solid fa-circle-info"></i> Detail</a>
+													<a asp-action="Delete" asp-route-id="@producer.Id" class="btn btn-outline-danger btn-sm mx-1"><i class="fa-solid fa-trash"></i> Delete</a>
+											</div>
+													
+									</td>
+							</tr>
 				}
 			</tbody>
 		</table>
@@ -42,3 +83,7 @@
 
 
 </div>
+
+		<div>
+			<a asp-action="Create" asp-controller="Producer" class="btn btn-outline-success float-end" style="position:fixed; bottom:65px; right:65px;"><i class="fa-solid fa-plus"></i> Add New</a>"
+		</div>

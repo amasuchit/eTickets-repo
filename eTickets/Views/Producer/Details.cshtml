@@ -1,0 +1,62 @@
+﻿@model ProducerViewModel
+
+@{
+	ViewData["Title"] = "Details";
+}
+
+<div class="row">
+	<div class="col-md-8 offset-2">
+		<div class="text-center align-middle">
+			<h1 class=" my-2">
+				Details of @Model.FullName
+			</h1>
+		</div>
+		<div class="content-wrapper">
+	<div class="col-md-8 offset-2">
+		
+			<div class="form-class mt-2">
+						<label class="fw-bold">Profile Picture Preview:</label>
+						<img id="ProfilePicturePreview" class="rounded-circle mx-4" style="width: 200px; height: 200px; ; object-fit: cover;"/>
+					</div>
+		<div class="form-group mt-3">
+			<label asp-for="ProfilePictureURL" class="fw-bold"></label>
+			<input type="text" asp-for="ProfilePictureURL" class="form-control" readonly/>
+			<span asp-validation-for="ProfilePictureURL" class="text-danger"></span>
+		</div>
+		<div class="form-group mt-3">
+			<label asp-for="FullName" class="fw-bold"></label>
+			<input type="text" asp-for="FullName" class="form-control" readonly/>
+			<span asp-validation-for="FullName" class="text-danger"></span>
+		</div>
+		<div class="form-group mt-3">
+			<label asp-for="Bio" class="fw-bold"></label>
+						
+			<textarea asp-for="Bio" class="form-control" rows="3" readonly></textarea>
+			<span asp-validation-for="Bio" class="text-danger"></span>
+		</div>
+
+		<div class="mt-4">
+			
+			<a asp-action="Index" class="btn btn-outline-info">Back to list</a>
+			<a asp-action="Edit" class="btn btn-outline-primary">Edit</a>
+		</div>
+
+	
+	</div>
+
+</div>
+
+	</div>
+</div>
+
+
+@section Scripts {
+			<script>
+					 $(document).ready(function () {
+							var output = document.getElementById('ProfilePicturePreview');
+						output.src = $("#ProfilePictureURL").val();
+					})
+
+					
+			</script>			
+}
