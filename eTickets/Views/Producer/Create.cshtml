@@ -1,0 +1,64 @@
+﻿@model ProducerViewModel
+
+@{
+	ViewData["Title"] = "Create Producer";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="my-4 text-center">
+	<h1>Add New Producer</h1>
+</div>
+
+
+<div class="content-wrapper">
+	<div class="col-md-8 offset-2">
+		<form asp-action="Create" asp-controller="Producer" method="Post">
+			<div class="form-class mt-2">
+						<label class="fw-bold">Profile Picture Preview:</label>
+						<img id="ProfilePicturePreview" class="rounded-circle mx-4" style="width: 200px; height: 200px; ; object-fit: cover;"/>
+					</div>
+		<div class="form-group mt-3">
+			<label asp-for="ProfilePictureURL" class="fw-bold"></label>
+			<input type="text" asp-for="ProfilePictureURL" class="form-control"/>
+			<span asp-validation-for="ProfilePictureURL" class="text-danger"></span>
+		</div>
+		<div class="form-group mt-3">
+			<label asp-for="FullName" class="fw-bold"></label>
+			<input type="text" asp-for="FullName" class="form-control"/>
+			<span asp-validation-for="FullName" class="text-danger"></span>
+		</div>
+		<div class="form-group mt-3">
+			<label asp-for="Bio" class="fw-bold"></label>
+			@* <input type="text" asp-for="Bio" class="form-control"/> *@
+			<textarea asp-for="Bio" rows="3" class="form-control"></textarea>
+			<span asp-validation-for="Bio" class="text-danger"></span>
+		</div>
+
+		<div class="mt-4">
+			<button type="submit" class="btn btn-outline-success float-end">Create</button>
+			<a asp-action="Index" class="btn btn-outline-info">Back to list</a>
+		</div>
+
+	</form>
+	</div>
+	
+</div>
+
+
+
+@section Scripts {
+		<script>
+				 $(document).ready(function () {
+						var output = document.getElementById('ProfilePicturePreview');
+					output.src = $("#ProfilePictureURL").val();
+				})
+
+				$("#ProfilePictureURL").on("change", function () {
+						var output = document.getElementById('ProfilePicturePreview');
+					output.src = $(this).val();
+				})
+
+		</script>			
+}

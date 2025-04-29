@@ -42,7 +42,8 @@
 					</div>
 				<div class="form-class mt-4 text-center">
 						<a asp-controller="Actor" asp-action="Index" class="btn btn-outline-info mx-2"> <i class="fa-solid fa-circle-arrow-left"></i> No, Back to list</a>
-					<button type="submit" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i> Delete</button>
+						<a asp-controller="Actor" asp-action="Edit" asp-route-id=@Model.Id class="btn btn-outline-primary"> <i class="fa-solid fa-pen-to-square"></i> Will Edit Instead</a>
+					<button type="submit" class="btn btn-outline-danger mx-2"><i class="fa-solid fa-trash"></i> Delete</button>
 					</div>
 					</form>
 			</div>

@@ -25,6 +25,7 @@ namespace eTickets.Data.Base
             var entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
             EntityEntry entityEntry = context.Entry<T>(entity);
             entityEntry.State = EntityState.Deleted;
+            await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()=> await context.Set<T>().ToListAsync();
@@ -39,6 +40,7 @@ namespace eTickets.Data.Base
         {
             EntityEntry entityEntry = context.Entry<T>(entity);
             entityEntry.State = EntityState.Modified;
+            await context.SaveChangesAsync();
         }
     }
 }
