@@ -65,12 +65,22 @@ namespace eTickets.Data.Services
             var allMovies = await context.Movies
                 .Include(c => c.Cinema)
                 .Include(p => p.Producer)
-                .Include(mc => mc.MovieCategory)
                 .Include(am => am.Actors_Movies).ThenInclude(a => a.Actor)
                 .ToListAsync();
            
             return allMovies;
 
+        }
+
+        public async Task<MovieDropdownsViewModel> GetDropdownforMovie()
+        {
+            var dropdown = new MovieDropdownsViewModel()
+            {
+                Cinemas = await context.Cinemas.OrderBy(c=>c.Name).ToListAsync(),
+                Producers = await context.Producers.OrderBy(p=>p.FullName).ToListAsync(),
+                Actors = await context.Actors.OrderBy(a=>a.FullName).ToListAsync()
+            };
+            return dropdown;
         }
     }
    

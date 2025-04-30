@@ -28,26 +28,14 @@ namespace eTickets.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-
-            var cinemas = await service.GetAllAsync().ToListAsync();
-            ViewBag.Cinemas = new SelectList(cinemas, "Id", "Name");
-            var actors = await context.Actors.ToListAsync();
-            ViewBag.Actors = new SelectList(actors, "Id", "FullName");
-            var producers = await context.Producers.ToListAsync();
-            ViewBag.Producers = new SelectList(producers, "Id", "FullName");
             return View();
         }
+            
 
         [HttpPost]
         public async Task<IActionResult> Create(MovieViewModel movieViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                await PopulateDropdowns(viewModel);
-                return View(viewModel);
-            }
-
-            await _movieService.AddNewMovieAsync(viewModel);
+           
             return RedirectToAction("Index");
         }
 
