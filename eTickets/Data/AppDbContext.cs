@@ -1,5 +1,7 @@
 ﻿using eTickets.Models;
 using Microsoft.EntityFrameworkCore;
+using eTickets.ViewModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace eTickets.Data
 {
@@ -17,6 +19,9 @@ namespace eTickets.Data
                 am.ActorId,
                 am.MovieId 
             });
+
+            modelBuilder.Ignore<SelectListItem>();
+            modelBuilder.Ignore<SelectListGroup>();
 
             modelBuilder.Entity<Actor_Movie>()
                 .HasOne(m=>m.Movie)
@@ -37,6 +42,8 @@ namespace eTickets.Data
         public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Producer> Producers { get; set; }
         public DbSet<Actor_Movie> Actors_Movies { get; set; }
+        public DbSet<eTickets.ViewModel.MovieViewModel> MovieViewModel { get; set; } = default!;
+       
 
     }
    

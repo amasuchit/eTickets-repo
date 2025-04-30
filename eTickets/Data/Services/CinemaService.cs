@@ -11,6 +11,5 @@ namespace eTickets.Data.Services
             this.context = context;
         }
     }
-    {
-    }
+   
 }
