@@ -72,16 +72,7 @@ namespace eTickets.Data.Services
 
         }
 
-        public async Task<MovieDropdownsViewModel> GetDropdownforMovie()
-        {
-            var dropdown = new MovieDropdownsViewModel()
-            {
-                Cinemas = await context.Cinemas.OrderBy(c=>c.Name).ToListAsync(),
-                Producers = await context.Producers.OrderBy(p=>p.FullName).ToListAsync(),
-                Actors = await context.Actors.OrderBy(a=>a.FullName).ToListAsync()
-            };
-            return dropdown;
-        }
+       
     }
    
 }
