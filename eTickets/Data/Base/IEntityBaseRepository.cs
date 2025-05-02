@@ -1,4 +1,5 @@
 ﻿using eTickets.Models;
+using eTickets.ViewModel;
 
 namespace eTickets.Data.Base
 {
@@ -9,5 +10,6 @@ namespace eTickets.Data.Base
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(int id);
+        
     }
 }

@@ -1,6 +1,7 @@
 ﻿using eTickets.Data.Base;
 using eTickets.Models;
 using eTickets.ViewModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Data.Services
@@ -34,7 +35,7 @@ namespace eTickets.Data.Services
             {
                 Name = viewModel.Name,
                 Description = viewModel.Description,
-                Price = viewModel.Price,
+                Price = (double)viewModel.Price,
                 ImageURL = viewModel.ImageURL,
                 StartDate = viewModel.StartDate,
                 EndDate = viewModel.EndDate,
@@ -72,7 +73,29 @@ namespace eTickets.Data.Services
 
         }
 
-       
+        public async Task<MovieViewModel> DropDownForMovies()
+        {
+            var modelViewModel = new MovieViewModel
+            {
+                Cinemas = context.Cinemas.Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }),
+                Producers = context.Producers.Select(p => new SelectListItem
+                {
+                    Text = p.FullName,
+                    Value = p.Id.ToString()
+                }),
+                Actors = context.Actors.Select(a => new SelectListItem
+                {
+                    Text = a.FullName,
+                    Value = a.Id.ToString()
+                })
+            };
+
+            return modelViewModel;
+        }
     }
    
 }

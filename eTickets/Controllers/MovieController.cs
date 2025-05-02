@@ -28,14 +28,25 @@ namespace eTickets.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            return View();
+            var fordropdown= await service.DropDownForMovies();
+            return View(fordropdown);
         }
             
 
         [HttpPost]
         public async Task<IActionResult> Create(MovieViewModel movieViewModel)
         {
-           
+
+            if(!ModelState.IsValid)
+            {
+                var fordropdown = await service.DropDownForMovies();
+                movieViewModel.Cinemas = fordropdown.Cinemas;
+                movieViewModel.Producers = fordropdown.Producers;
+                movieViewModel.Actors = fordropdown.Actors;
+                return View(movieViewModel);
+            }
+            await service.AddMoviewithActor(movieViewModel);
+            TempData["CreateMessage"] = "Movie's Record Created Successfully";
             return RedirectToAction("Index");
         }
 

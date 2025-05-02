@@ -5,12 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Mvc;
 
 namespace eTickets.ViewModel
 {
     public class MovieViewModel
     {
-        public int Id { get; set; }
+
+        [Key]
+        public int? Id { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
@@ -19,16 +22,20 @@ namespace eTickets.ViewModel
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Price is required")]
-        public double Price { get; set; }
+        public double? Price { get; set; }
 
         [Display(Name = "Movie Image")]
-        public string ImageURL { get; set; }
+        [Required(ErrorMessage = "Image URL is required")]
+        public string? ImageURL { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime StartDate { get; set; }
+        [Required(ErrorMessage = "Start date is required")]
+        public DateTime StartDate { get; set; }= DateTime.Now;
 
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "End date is required")]
         public DateTime EndDate { get; set; }
+        [Required(ErrorMessage = "Movie category is required")]
         public MovieCategory MovieCategory { get; set; }
 
 
@@ -47,8 +54,11 @@ namespace eTickets.ViewModel
         public int ProducerId { get; set; }
 
         // These populate dropdowns/multiselect lists in the form
+        [ValidateNever]
         public IEnumerable<SelectListItem> Cinemas { get; set; }
+        [ValidateNever]
         public IEnumerable<SelectListItem> Producers { get; set; }
+        [ValidateNever]
         public IEnumerable<SelectListItem> Actors { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace eTickets.Data.Services
 
         Task AddMoviewithActor (MovieViewModel movieViewModel);
 
-        
+        Task<MovieViewModel> DropDownForMovies();
 
     }
 }
