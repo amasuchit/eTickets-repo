@@ -51,5 +51,17 @@ namespace eTickets.Controllers
         }
 
 
+        public async Task<IActionResult> Details(int id)
+        {
+            var result = await service.GetMovieByIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+           
+            return View(result);
+        }
+
+
     }
 }

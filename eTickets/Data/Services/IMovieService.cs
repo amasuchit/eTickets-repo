@@ -9,6 +9,8 @@ namespace eTickets.Data.Services
 
         Task<IEnumerable<Movie>>  GetAllMoviesAsync ();
 
+        Task<Movie> GetMovieByIdAsync(int id);
+
         Task AddMoviewithActor (MovieViewModel movieViewModel);
 
         Task<MovieViewModel> DropDownForMovies();

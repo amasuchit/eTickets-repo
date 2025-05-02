@@ -21,7 +21,6 @@ namespace eTickets.Data.Services
             var movieDetails = await context.Movies
                 .Include(c => c.Cinema)
                 .Include(p => p.Producer)
-                .Include(mc => mc.MovieCategory)
                 .Include(am => am.Actors_Movies).ThenInclude(a => a.Actor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             return movieDetails;

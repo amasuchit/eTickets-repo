@@ -11,6 +11,7 @@ namespace eTickets.ViewModel
 {
     public class MovieViewModel
     {
+        internal List<Actor_Movie> Actors_Movies;
 
         [Key]
         public int? Id { get; set; }
@@ -37,7 +38,7 @@ namespace eTickets.ViewModel
         public DateTime EndDate { get; set; }
         [Required(ErrorMessage = "Movie category is required")]
         public MovieCategory MovieCategory { get; set; }
-
+       
 
 
 
