@@ -26,7 +26,17 @@ namespace eTickets.Data.Services
             return movieDetails;
         }
 
+        public async Task<IEnumerable<Movie>> GetAllMoviesAsync()
+        {
+            var allMovies = await context.Movies
+                .Include(c => c.Cinema)
+                .Include(p => p.Producer)
+                .Include(am => am.Actors_Movies).ThenInclude(a => a.Actor)
+                .ToListAsync();
 
+            return allMovies;
+
+        }
 
         public async Task AddMoviewithActor(MovieViewModel viewModel)
         {
@@ -60,17 +70,43 @@ namespace eTickets.Data.Services
 
         }
 
-        public async Task<IEnumerable<Movie>> GetAllMoviesAsync()
+        public async Task UpdateMovieAsync(MovieViewModel movieViewModel)
         {
-            var allMovies = await context.Movies
-                .Include(c => c.Cinema)
-                .Include(p => p.Producer)
-                .Include(am => am.Actors_Movies).ThenInclude(a => a.Actor)
-                .ToListAsync();
-           
-            return allMovies;
+            var movie = await context.Movies.FirstOrDefaultAsync(m => m.Id == movieViewModel.Id);
+
+            if (movie != null)
+            {
+                movie.Id = movieViewModel.Id;
+                movie.Name = movieViewModel.Name;
+                movie.Description = movieViewModel.Description;
+                movie.Price = movieViewModel.Price;
+                movie.ImageURL = movieViewModel.ImageURL;
+                movie.StartDate = movieViewModel.StartDate;
+                movie.EndDate = movieViewModel.EndDate;
+                movie.MovieCategory = movieViewModel.MovieCategory;
+                movie.CinemaId = movieViewModel.CinemaId;
+                movie.ProducerId = movieViewModel.ProducerId;
+                await context.SaveChangesAsync();
+            };
+            var existingactors = await context.Actors_Movies.Where(am => am.MovieId == movie.Id).ToListAsync();
+            context.Actors_Movies.RemoveRange(existingactors);
+           await context.SaveChangesAsync();
+          
+            foreach (var actorId in movieViewModel.ActorId)
+            {
+                var newActorMovie = new Actor_Movie
+                {
+                    MovieId= movieViewModel.Id,
+                    ActorId = actorId
+                };
+               await context.Actors_Movies.AddAsync(newActorMovie);
+            }
+            await context.SaveChangesAsync();
 
         }
+
+
+
 
         public async Task<MovieViewModel> DropDownForMovies()
         {
@@ -95,6 +131,8 @@ namespace eTickets.Data.Services
 
             return modelViewModel;
         }
+
+       
     }
    
 }

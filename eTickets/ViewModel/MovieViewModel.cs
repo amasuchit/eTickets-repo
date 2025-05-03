@@ -14,7 +14,7 @@ namespace eTickets.ViewModel
         internal List<Actor_Movie> Actors_Movies;
 
         [Key]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
@@ -23,7 +23,7 @@ namespace eTickets.ViewModel
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Price is required")]
-        public double? Price { get; set; }
+        public double Price { get; set; }
 
         [Display(Name = "Movie Image")]
         [Required(ErrorMessage = "Image URL is required")]

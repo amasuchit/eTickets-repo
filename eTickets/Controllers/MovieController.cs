@@ -58,8 +58,54 @@ namespace eTickets.Controllers
             {
                 return NotFound();
             }
-           
             return View(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var datafromdb = await service.GetMovieByIdAsync(id);
+            if (datafromdb == null)
+            {
+                return NotFound();
+            }
+            var fordropdown = await service.DropDownForMovies();
+            var movieViewModel = new MovieViewModel()
+            {
+                Id = datafromdb.Id,
+                Name = datafromdb.Name,
+                Description = datafromdb.Description,
+                Price = datafromdb.Price,
+                StartDate = datafromdb.StartDate,
+                EndDate = datafromdb.EndDate,
+                ImageURL = datafromdb.ImageURL,
+                MovieCategory = datafromdb.MovieCategory,
+                CinemaId = datafromdb.CinemaId,
+                ProducerId = datafromdb.ProducerId,
+                ActorId = datafromdb.Actors_Movies.Select(a => a.ActorId).ToList(),
+                Cinemas = fordropdown.Cinemas,
+                Producers = fordropdown.Producers,
+                Actors = fordropdown.Actors
+            };
+            return View(movieViewModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(MovieViewModel movieViewModel)
+        {
+            
+            if (!ModelState.IsValid)
+            {
+                var fordropdown = await service.DropDownForMovies();
+                movieViewModel.Cinemas = fordropdown.Cinemas;
+                movieViewModel.Producers = fordropdown.Producers;
+                movieViewModel.Actors = fordropdown.Actors;
+                return View(movieViewModel);
+            }
+            await service.UpdateMovieAsync(movieViewModel);
+            TempData["EditMessage"] = "Movie's Record Updated Successfully";
+            return RedirectToAction("Index");
         }
 
 
