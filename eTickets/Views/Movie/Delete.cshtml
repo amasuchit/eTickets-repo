@@ -1,34 +1,35 @@
-﻿@model MovieViewModel
+﻿@model eTickets.ViewModel.MovieViewModel
 
 @{
-	ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Delete";
 }
+
 
 
 <div class="content-wrapper">
 	<div class="col-md-8 offset-2 mt-4 ">
 		<h1 class="text-center">Update @Model.Name's Record</h1>
-		<form asp-action="Edit" asp-controller="Movie" method="Post">
+		<form asp-action="Delete" asp-controller="Movie" method="Post">
 			@Html.AntiForgeryToken()
 
-			
+
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 			<input type="hidden" asp-for="Id"/>
 
 			<div class="form-group mt-2">
 				<label asp-for="Name" class="control-label fw-bold"></label>
-				<input asp-for="Name" class="form-control" />
+				<input asp-for="Name" class="form-control" readonly/>
 				<span asp-validation-for="Name" class="text-danger"></span>
 			</div>
 			<div class="form-group mt-2">
 				<label asp-for="Description" class="control-label fw-bold"></label>
-				<textarea asp-for="Description" class="form-control" rows="3"></textarea>
+				<textarea asp-for="Description" class="form-control" rows="3" readonly></textarea>
 				<span asp-validation-for="Description" class="text-danger"></span>
 			</div>
 			<div class="form-group mt-2">
 				<label asp-for="Price" class="control-label fw-bold"></label>
-				<input asp-for="Price" class="form-control" />
+				<input asp-for="Price" class="form-control" readonly />
 				<span asp-validation-for="Price" class="text-danger"></span>
 			</div>
 			@* // could have used justify content center as well 
@@ -52,22 +53,22 @@
 
 			<div class="form-group mt-2">
 				<label asp-for="ImageURL" class="control-label fw-bold"></label>
-				<input asp-for="ImageURL" class="form-control" />
+				<input asp-for="ImageURL" class="form-control" readonly />
 				<span asp-validation-for="ImageURL" class="text-danger"></span>
 			</div>
 			<div class="form-group mt-2">
 				<label asp-for="StartDate" class="control-label fw-bold"></label>
-				<input asp-for="StartDate" class="form-control"/>
+				<input asp-for="StartDate" class="form-control" readonly/>
 				<span asp-validation-for="StartDate" class="text-danger"></span>
 			</div>
 			<div class="form-group mt-2">
 				<label asp-for="EndDate" class="control-label fw-bold"></label>
-				<input asp-for="EndDate" class="form-control" />
+				<input asp-for="EndDate" class="form-control" readonly/>
 				<span asp-validation-for="EndDate" class="text-danger"></span>
 			</div>
 			<div class="form-group mt-2">
 				<label asp-for="MovieCategory" class="control-label fw-bold"></label>
-				<select asp-for="MovieCategory" asp-items="Html.GetEnumSelectList<MovieCategory>()" class="form-control">
+				<select asp-for="MovieCategory" asp-items="Html.GetEnumSelectList<MovieCategory>()" class="form-control" disabled>
 					<option value="">Select Category</option>
 				</select>
 				<span asp-validation-for="MovieCategory" class="text-danger"></span>
@@ -77,36 +78,39 @@
 <div style="column-count: 2;">
 					@foreach (var actor in Model.Actors)
 					{
-			<div class="form-check">
-				<input class="form-check-input"
-					   type="checkbox"
-					   name="ActorId"
-					   value="@actor.Value"
-					   id="actor_@actor.Value" 
-							@(Model.ActorId.Contains(int.Parse(actor.Value)) ? "checked" : "")/>
-				<label class="form-check-label" for="actor_@actor.Value">
+						var isChecked = Model.ActorId.Contains(int.Parse(actor.Value));
+				<div class="form-check">
+					<input class="form-check-input"
+						   type="checkbox"
+						   name="ActorId"
+						   value="@actor.Value"
+						   id="actor_@actor.Value" 
+							@(isChecked ? "checked" : "")
+						   disabled)
+								/>
+					<label class="form-check-label" for="actor_@actor.Value">
 								@actor.Text
-				</label>
-			</div>
+					</label>
+				</div>
 					}
 </div>
 </div>
 			<div class="form-group mt-2">
 				<label asp-for="CinemaId" class="control-label fw-bold"></label>
-				<select asp-for="CinemaId" asp-items=@Model.Cinemas class="form-control" >
+				<select asp-for="CinemaId" asp-items=@Model.Cinemas class="form-control"disabled>
 					<option value="">Select Cinema</option>
 				</select>
 				<span asp-validation-for="CinemaId" class="text-danger"></span>
 			</div>
 			<div class="form-group mt-2">
 				<label asp-for="ProducerId" class="control-label fw-bold"></label>
-				<select asp-for="ProducerId" asp-items="@Model.Producers"  class="form-control" >
+				<select asp-for="ProducerId" asp-items="@Model.Producers"  class="form-control" disabled>
 					<option value="">Select Producer</option>
 				</select>
 				<span asp-validation-for="ProducerId" class="text-danger"></span>
 			</div>
 			<div class="form-group mt-2 text-center">
-				<input type="submit" value="Update" asp-action="Edit" asp-controller="Movie" class="btn btn-outline-success" />
+				<input type="submit" value="Yes, Delete" asp-action="Delete" asp-controller="Movie" class="btn btn-outline-danger" />
 				<a asp-action="Index" class="btn btn-outline-info mx-2">Back to List</a>
 			</div>
 		</form>
@@ -117,21 +121,20 @@
 </div>
 
 <div>
-	
+
 </div>
 
 
 @section Scripts {
-					<script>
-							 $(document).ready(function () {
-									var output = document.getElementById('imagepreview');
-								output.src = $("#ImageURL").val();
-							})
+						<script>
+								 $(document).ready(function () {
+										var output = document.getElementById('imagepreview');
+									output.src = $("#ImageURL").val();
+								})
 
-							$("#ImageURL").on("change", function () {
-									var output = document.getElementById('imagepreview');
-								output.src = $(this).val();
-							})
+								
 
-					</script>			
+						</script>			
 }
+    
+    

@@ -15,7 +15,7 @@ namespace eTickets.Data.Services
 
         Task UpdateMovieAsync(MovieViewModel movieViewModel);
 
-
+        Task DeleteAsync(int id);
 
         Task<MovieViewModel> DropDownForMovies();
 

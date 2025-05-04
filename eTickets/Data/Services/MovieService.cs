@@ -1,6 +1,7 @@
 ﻿using eTickets.Data.Base;
 using eTickets.Models;
 using eTickets.ViewModel;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
@@ -72,41 +73,48 @@ namespace eTickets.Data.Services
 
         public async Task UpdateMovieAsync(MovieViewModel movieViewModel)
         {
-            var movie = await context.Movies.FirstOrDefaultAsync(m => m.Id == movieViewModel.Id);
-
-            if (movie != null)
+            var datafromdb = await GetMovieByIdAsync(movieViewModel.Id);
+            if (datafromdb != null)
             {
-                movie.Id = movieViewModel.Id;
-                movie.Name = movieViewModel.Name;
-                movie.Description = movieViewModel.Description;
-                movie.Price = movieViewModel.Price;
-                movie.ImageURL = movieViewModel.ImageURL;
-                movie.StartDate = movieViewModel.StartDate;
-                movie.EndDate = movieViewModel.EndDate;
-                movie.MovieCategory = movieViewModel.MovieCategory;
-                movie.CinemaId = movieViewModel.CinemaId;
-                movie.ProducerId = movieViewModel.ProducerId;
-                await context.SaveChangesAsync();
-            };
-            var existingactors = await context.Actors_Movies.Where(am => am.MovieId == movie.Id).ToListAsync();
-            context.Actors_Movies.RemoveRange(existingactors);
-           await context.SaveChangesAsync();
-          
-            foreach (var actorId in movieViewModel.ActorId)
-            {
-                var newActorMovie = new Actor_Movie
+                datafromdb.Name = movieViewModel.Name;
+                datafromdb.Description = movieViewModel.Description;
+                datafromdb.Price = movieViewModel.Price;
+                datafromdb.ImageURL = movieViewModel.ImageURL;
+                datafromdb.StartDate = movieViewModel.StartDate;
+                datafromdb.EndDate = movieViewModel.EndDate;
+                datafromdb.MovieCategory = movieViewModel.MovieCategory;
+                datafromdb.CinemaId = movieViewModel.CinemaId;
+                datafromdb.ProducerId = movieViewModel.ProducerId;
+                
+                var existingactors = await context.Actors_Movies.Where(am => am.MovieId == datafromdb.Id).ToListAsync();
+                context.Actors_Movies.RemoveRange(existingactors);
+              
+                if( movieViewModel.ActorId != null)
                 {
-                    MovieId= movieViewModel.Id,
-                    ActorId = actorId
-                };
-               await context.Actors_Movies.AddAsync(newActorMovie);
+                    foreach (var actorId in movieViewModel.ActorId)
+                    {
+                        var newActorMovie = new Actor_Movie
+                        {
+                            MovieId = movieViewModel.Id,
+                            ActorId = actorId
+                        };
+                        await context.Actors_Movies.AddAsync(newActorMovie);
+                    }
+                }
+                await context.SaveChangesAsync();
             }
-            await context.SaveChangesAsync();
-
         }
 
 
-
+        public async Task DeleteAsync(int id)
+        {
+            var datafromdb = await GetMovieByIdAsync(id);
+            if (datafromdb != null)
+            {
+                context.Movies.Remove(datafromdb);
+                await context.SaveChangesAsync();
+            }
+        }
 
         public async Task<MovieViewModel> DropDownForMovies()
         {

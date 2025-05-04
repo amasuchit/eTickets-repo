@@ -108,6 +108,57 @@ namespace eTickets.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            var result = await service.GetMovieByIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var fordropdown = await service.DropDownForMovies();
+            var viewModel = new MovieViewModel()
+            {
+                Id = result.Id,
+                Name = result.Name,
+                Description = result.Description,
+                Price = result.Price,
+                StartDate = result.StartDate,
+                EndDate = result.EndDate,
+                ImageURL = result.ImageURL,
+                MovieCategory = result.MovieCategory,
+                CinemaId = result.CinemaId,
+                ProducerId = result.ProducerId,
+                Actors = result.Actors_Movies.Select(a => new SelectListItem
+                {
+                    Text = a.Actor.FullName,
+                    Value = a.ActorId.ToString()
+                }).ToList(),
+                Cinemas = fordropdown.Cinemas,
+                Producers = fordropdown.Producers,
+                
+            };
+            
+            return View(viewModel);
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var result = await service.GetMovieByIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            await service.DeleteAsync(id);
+            TempData["DeleteMessage"] = "Movie's Record Deleted Successfully";
+            return RedirectToAction("Index");
+        }
 
     }
 }
