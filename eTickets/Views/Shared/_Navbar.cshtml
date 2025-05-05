@@ -1,39 +1,69 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using eTickets.Utilities
+@using eTickets.Data
+
 @{
+    // Get the current controller name
+    var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+
+    // Only get cart data if we're in the Movie or Cart controller
+    List<CartItem> cart = null;
+    int cartItemCount = 0;
+
+    if (controllerName == "Movie" || controllerName == "Cart")
+    {
+        cart = Context.Session.GetObjectFromJson<List<CartItem>>("Cart");
+        cartItemCount = cart?.Count ?? 0;
+    }
 }
-<nav class="navbar navbar-expand-lg  bg-primary" data-bs-theme="light">
-  <div class="container-fluid">
-    <a class="navbar-brand text-white" asp-controller="Movie" asp-action="Index">eTickets</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarColor03">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active text-white" asp-action="Index" asp-controller="Movie" > <i class="fa-solid fa-film"></i> Movies
-            <span class="visually-hidden">(current)</span>
-          </a>
-        </li>
-       
-       
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" asp-action="Index" asp-controller="Movie" role="button" aria-haspopup="true" aria-expanded="true"><i class="fa-solid fa-gear"></i> Management</a>
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="light">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white" asp-controller="Movie" asp-action="Index">eTickets</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <!-- Left-aligned nav items -->
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active text-white" asp-action="Index" asp-controller="Movie">
+                        <i class="fa-solid fa-film"></i> Movies
+                        <span class="visually-hidden">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" asp-action="Index" asp-controller="Movie" role="button" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa-solid fa-gear"></i> Management
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" asp-action="Index" asp-controller="Cinema"><i class="fa-solid fa-video"></i> Cinema</a>
+                        <a class="dropdown-item" asp-action="Index" asp-controller="Actor"><i class="fa-solid fa-users"></i> Actor</a>
+                        <a class="dropdown-item" asp-action="Index" asp-controller="Producer"><i class="fa-solid fa-headset"></i> Producer</a>
+                    </div>
+                </li>
+            </ul>
 
-           
-          <div class="dropdown-menu">
-            <a class="dropdown-item" asp-action="Index" asp-controller="Cinema"><i class="fa-solid fa-video"></i> Cinema</a>
-            <a class="dropdown-item" asp-action="Index" asp-controller="Actor"><i class="fa-solid fa-users"></i> Actor</a>
-            <a class="dropdown-item" asp-action="Index" asp-controller="Producer"> <i class="fa-solid fa-headset"></i> Producer</a>
-           
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-sm-2" type="search" placeholder="Search">
-        <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-      </form>
+            <!-- Right-aligned cart -->
+            @if (controllerName == "Movie" || controllerName == "Cart")
+            {
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Cart" asp-action="Index">
+                                <i class="fa-solid fa-cart-shopping"></i> Cart
+                            @if (cartItemCount > 0)
+                            {
+                                        <span class="badge bg-danger rounded-pill cart-count">@cartItemCount</span>
+                            }
+                            </a>
+                        </li>
+                    </ul>
+            }
+
+            @* Commented search form *@
+            @* <form class="d-flex">
+                <input class="form-control me-sm-2" type="search" placeholder="Search">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form> *@
+        </div>
     </div>
-  </div>
 </nav>

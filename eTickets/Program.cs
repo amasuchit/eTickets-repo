@@ -2,7 +2,9 @@ using eTickets.Data;
 using eTickets.Data.Services;
 using Microsoft.EntityFrameworkCore; // Add this using directive at the top of the file
 
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -16,9 +18,17 @@ builder.Services.AddScoped<IProducerService, ProducerService>();
 builder.Services.AddScoped<ICinemaService, CinemaService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
-
+// Add session services
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,7 +41,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();
