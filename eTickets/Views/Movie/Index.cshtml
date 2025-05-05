@@ -44,7 +44,8 @@
                 <div class="card h-100 d-flex flex-column mb-3 w-100">
                     <div class="card-header bg-primary text-white">
                         <h5 class="card-title mb-0">
-                        @movie.Name
+                                    <a class="text-white" asp-action="Details" asp-route-id="@movie.Id"> @movie.Name</a>
+                       
                             <a class="text-white float-end" asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
@@ -53,7 +54,9 @@
 
                     <div class="row g-0 flex-grow-1">
                         <div class="col-md-6">
+								<a class="text-white" asp-action="Details" asp-route-id="@movie.Id">
                             <img src="@movie.ImageURL" width="100%" alt="@movie.Name" />
+                            </a>
                         </div>
 
                         <div class="col-md-6">

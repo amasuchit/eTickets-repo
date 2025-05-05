@@ -23,11 +23,11 @@ namespace eTickets.ViewModel
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Price is required")]
-        public double Price { get; set; }
+        public double? Price { get; set; }
 
         [Display(Name = "Movie Image")]
         [Required(ErrorMessage = "Image URL is required")]
-        public string? ImageURL { get; set; }
+        public string ImageURL { get; set; }
 
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Start date is required")]
@@ -35,7 +35,7 @@ namespace eTickets.ViewModel
 
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "End date is required")]
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate { get; set; }= DateTime.Now.AddDays(21);
         [Required(ErrorMessage = "Movie category is required")]
         public MovieCategory MovieCategory { get; set; }
        

@@ -1,5 +1,7 @@
 ﻿@model Movie
-
+@{
+	ViewData["Title"] = "Movie Details";
+}
 
 
 <div class="row mt-5">
@@ -21,12 +23,13 @@
                             <div>
                         <h5 class="card-title">
                                     @Model.Name
-                            <a class="text-white float-end" asp-controller="Movie" asp-action="Edit" asp-route-id="@Model.Id">
+                                      <a class="text-white float-end mx-2" asp-controller="Movie" asp-action="Delete" asp-route-id="@Model.Id">
+                               <i class="fa-solid fa-trash"></i>
+                            </a>
+                            <a class="text-white float-end mx-2" asp-controller="Movie" asp-action="Edit" asp-route-id="@Model.Id">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <a class="text-white float-end" asp-controller="Movie" asp-action="Delete" asp-route-id="@Model.Id">
-                                Delete
-                            </a>
+                          
                         </h5>
                     </div>
 
@@ -112,11 +115,11 @@
                     <div class="card-footer">
                         <p class="card-text">
                             <a class="btn btn-outline-primary float-right" asp-action="Index">
-                                Back to List
+                               <i class="fa-solid fa-arrow-left"></i> Back to List
                             </a>
                             <a class="btn btn-success text-white  @((DateTime.Now > Model.EndDate) ? "disabled" : "") float-end" 
                                asp-controller="Orders" 
-                               asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id"><i class="bi bi-cart-plus"></i> Add to Cart (Price NRs. @Model.Price)</a>
+                               asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id"><i class="fa-solid fa-cart-plus"></i> Add to Cart (Price NRs. @Model.Price)</a>
                         </p>
                     </div>
                 </div>

@@ -78,7 +78,7 @@ namespace eTickets.Data.Services
             {
                 datafromdb.Name = movieViewModel.Name;
                 datafromdb.Description = movieViewModel.Description;
-                datafromdb.Price = movieViewModel.Price;
+                datafromdb.Price = (double)movieViewModel.Price;
                 datafromdb.ImageURL = movieViewModel.ImageURL;
                 datafromdb.StartDate = movieViewModel.StartDate;
                 datafromdb.EndDate = movieViewModel.EndDate;
