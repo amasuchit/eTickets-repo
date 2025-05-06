@@ -1,5 +1,5 @@
 ﻿
-@model IEnumerable<Movie>
+@model MovieFilterViewModel
 
 @{
     ViewData["Title"] = "Movies";
@@ -42,10 +42,10 @@
 
 
 <h2 class="text-center">Filter Movies</h2>
-<div class="col-md-10 offset-2">
-    
 
-<form method="get" asp-action="Index">
+@*
+<div class="col-md-10 offset-2">
+  <form method="get" asp-action="Index">
     <div class="row">
         <div class="col-md-4">
             <label for="cinemaDropdown" class="fw-bold">Select Cinema:</label>
@@ -73,15 +73,15 @@
 
 </div>
 
+ *@
 
-
-@* @await Html.PartialAsync("_FilterPartial") *@
+@await Html.PartialAsync("_FilterPartial")
 
 
 <br />
 
 <div class="row my-5 mb-5">
-    @foreach (var movie in Model)
+    @foreach (var movie in Model.FilteredMovies)
     {
                 <div class="col-md-4 d-flex col-xs-6 border-primary mb-3">
                     <div class="card h-100 d-flex flex-column mb-3 w-100">

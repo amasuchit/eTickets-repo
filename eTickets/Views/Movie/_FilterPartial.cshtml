@@ -1,20 +1,31 @@
 ﻿@using eTickets.ViewModel
 @model MovieFilterViewModel
 
-<form asp-action="Index" method="get" class="row g-3 mb-4">
-    <div class="col-md-4">
-        <label>Cinema</label>
-        <select asp-for="SelectedCinemaId" asp-items="Model.Cinemas" class="form-control">
-            <option value="">-- All Cinemas --</option>
-        </select>
-    </div>
-    <div class="col-md-4">
-        <label>Movie</label>
-        <select asp-for="SelectedMovieId" asp-items="Model.Movies" class="form-control">
-            <option value="">-- All Movies --</option>
-        </select>
-    </div>
-    <div class="col-md-4 align-self-end">
-        <button type="submit" class="btn btn-primary">Filter</button>
+
+<div class="col-md-10 offset-2">
+<form method="get" asp-action="Index">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="cinemaDropdown" class="fw-bold">Select Cinema:</label>
+            <select id="cinemaDropdown" name="cinemaId" class="form-control">
+                <option value="">-- Select Cinema --</option>
+                @foreach (var cinema in ViewBag.Cinemas as SelectList)
+                {
+                                <option value="@cinema.Value">@cinema.Text</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label for="movieDropdown" class="fw-bold">Select Movie:</label>
+            <select id="movieDropdown" name="movieId" class="form-control">
+                <option value="">-- Select Movie --</option>
+            </select>
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i></button>
+        </div>
     </div>
 </form>
+</div>

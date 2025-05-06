@@ -31,12 +31,12 @@ namespace eTickets.Controllers
                 SelectedMovieId = movieId,
                 Cinemas = cinemas.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }),
                 Movies = allMovies.Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Name }),
-               
+                FilteredMovies = movies
             };
             ViewBag.Cinemas = new SelectList(cinemas, "Id", "Name");
 
 
-            return View(movies);
+            return View(filterVM);
         }
 
 
