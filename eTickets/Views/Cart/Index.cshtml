@@ -39,7 +39,7 @@
                                 <td>
                                     <form asp-action="RemoveFromCart" method="post">
                                         <input type="hidden" name="movieId" value="@item.MovieId" />
-                                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-minus"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -55,8 +55,8 @@
             </table>
 
             <div class="d-flex justify-content-between">
-                <a asp-controller="Movie" asp-action="Index" class="btn btn-primary">Continue Shopping</a>
-                <a asp-controller="Checkout" asp-action="Index" class="btn btn-success">Proceed to Checkout</a>
+                    <a asp-controller="Movie" asp-action="Index" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</a>
+                    <a asp-controller="Checkout" asp-action="Index" class="btn btn-success"><i class="fa-solid fa-cart-shopping"></i> Proceed to Checkout</a>
             </div>
     }
 </div>

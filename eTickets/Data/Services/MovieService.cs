@@ -140,7 +140,24 @@ namespace eTickets.Data.Services
             return modelViewModel;
         }
 
+
+
        
+
+        public async Task<List<Movie>> GetFilteredMoviesAsync(int? cinemaId, int? movieId)
+        {
+            var moviesQuery = context.Movies
+                .Include(m => m.Cinema) // Include whatever you need
+                .AsQueryable();
+
+            if (cinemaId.HasValue)
+                moviesQuery = moviesQuery.Where(m => m.CinemaId == cinemaId.Value);
+
+            if (movieId.HasValue)
+                moviesQuery = moviesQuery.Where(m => m.Id == movieId.Value);
+
+            return await moviesQuery.ToListAsync();
+        }
     }
-   
+
 }

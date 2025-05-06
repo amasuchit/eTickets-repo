@@ -12,16 +12,31 @@ namespace eTickets.Controllers
     public class MovieController : Controller
     {
         private readonly IMovieService service;
+        private readonly ICinemaService _cinemaService;
 
-        public MovieController(IMovieService service)
+        public MovieController(IMovieService service, ICinemaService cinemaService)
         {
             this.service = service;
+            _cinemaService = cinemaService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? cinemaId, int? movieId)
         {
-            var result= await service.GetAllMoviesAsync();
-            return View(result);
+            var movies = await service.GetFilteredMoviesAsync(cinemaId, movieId);
 
+            var cinemas = await _cinemaService.GetAllAsync();
+            var allMovies= await service.GetAllMoviesAsync();
+            var filterVM = new MovieFilterViewModel
+            {
+                SelectedCinemaId = cinemaId,
+                SelectedMovieId = movieId,
+                Cinemas = cinemas.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }),
+                Movies = allMovies.Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Name }),
+               
+            };
+            ViewBag.Cinemas = new SelectList(cinemas, "Id", "Name");
+
+
+            return View(movies);
         }
 
 
@@ -158,6 +173,18 @@ namespace eTickets.Controllers
             await service.DeleteAsync(id);
             TempData["DeleteMessage"] = "Movie's Record Deleted Successfully";
             return RedirectToAction("Index");
+        }
+
+
+        [HttpGet]
+        public async Task<JsonResult> GetMoviesByCinema(int cinemaId)
+        {
+            var movies = (await service.GetAllMoviesAsync())
+                .Where(m => m.CinemaId == cinemaId)
+                .Select(m => new { m.Id, m.Name })
+                .ToList();
+
+            return Json(movies);
         }
 
     }

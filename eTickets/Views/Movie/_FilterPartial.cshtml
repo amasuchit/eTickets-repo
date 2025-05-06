@@ -1,0 +1,20 @@
+﻿@using eTickets.ViewModel
+@model MovieFilterViewModel
+
+<form asp-action="Index" method="get" class="row g-3 mb-4">
+    <div class="col-md-4">
+        <label>Cinema</label>
+        <select asp-for="SelectedCinemaId" asp-items="Model.Cinemas" class="form-control">
+            <option value="">-- All Cinemas --</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label>Movie</label>
+        <select asp-for="SelectedMovieId" asp-items="Model.Movies" class="form-control">
+            <option value="">-- All Movies --</option>
+        </select>
+    </div>
+    <div class="col-md-4 align-self-end">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+</form>

@@ -18,6 +18,6 @@ namespace eTickets.Data.Services
         Task DeleteAsync(int id);
 
         Task<MovieViewModel> DropDownForMovies();
-
+        Task<List<Movie>> GetFilteredMoviesAsync(int? cinemaId, int? movieId);
     }
 }

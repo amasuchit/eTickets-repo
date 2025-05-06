@@ -1,7 +1,9 @@
-﻿@model IEnumerable<Movie>
+﻿
+@model IEnumerable<Movie>
 
 @{
     ViewData["Title"] = "Movies";
+	var filter = ViewBag.Filter as MovieFilterViewModel;
 }
 
 <link rel="stylesheet" href="~/css/card.css" asp-append-version="true" />
@@ -37,89 +39,130 @@
                     </div>
 
 }
+
+
+<h2 class="text-center">Filter Movies</h2>
+<div class="col-md-10 offset-2">
+    
+
+<form method="get" asp-action="Index">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="cinemaDropdown" class="fw-bold">Select Cinema:</label>
+            <select id="cinemaDropdown" name="cinemaId" class="form-control">
+                <option value="">-- Select Cinema --</option>
+                    @foreach (var cinema in ViewBag.Cinemas as SelectList)
+                    {
+                            <option value="@cinema.Value">@cinema.Text</option>
+                    }
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label for="movieDropdown" class="fw-bold">Select Movie:</label>
+            <select id="movieDropdown" name="movieId" class="form-control">
+                <option value="">-- Select Movie --</option>
+            </select>
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i></button>
+        </div>
+    </div>
+</form>
+
+</div>
+
+
+
+@* @await Html.PartialAsync("_FilterPartial") *@
+
+
+<br />
+
 <div class="row my-5 mb-5">
     @foreach (var movie in Model)
     {
-            <div class="col-md-4 d-flex col-xs-6 border-primary mb-3">
-                <div class="card h-100 d-flex flex-column mb-3 w-100">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="card-title mb-0">
-                                    <a class="text-white" asp-action="Details" asp-route-id="@movie.Id"> @movie.Name</a>
-                       
-                            <a class="text-white float-end" asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-                        </h5>
-                    </div>
+                <div class="col-md-4 d-flex col-xs-6 border-primary mb-3">
+                    <div class="card h-100 d-flex flex-column mb-3 w-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">
+                                        <a class="text-white" asp-action="Details" asp-route-id="@movie.Name"> @movie.Name</a>
 
-                    <div class="row g-0 flex-grow-1">
-                        <div class="col-md-6">
-								<a class="text-white" asp-action="Details" asp-route-id="@movie.Id">
-                            <img src="@movie.ImageURL" width="100%" alt="@movie.Name" />
-                            </a>
+                                <a class="text-white float-end" asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                            </h5>
                         </div>
 
-                        <div class="col-md-6">
-                                <div class="card-body d-flex flex-column h-100">
-        <div class="flex-grow-1 mb-2">
-            <p class="card-text clamp-4-lines">
-                                    @movie.Description
-            </p>
-        </div>
+                        <div class="row g-0 flex-grow-1">
+                            <div class="col-md-6">
+                                    <a class="text-white" asp-action="Details" asp-route-id="@movie.Id">
+                                <img src="@movie.ImageURL" width="100%" alt="@movie.Name" />
+                                </a>
+                            </div>
 
-        <div>
-            <p class="card-text mb-1"><b>Cinema: </b>@movie.Cinema.Name</p>
-            <p class="card-text mb-1"><b>Category: </b>@movie.MovieCategory</p>
-            <p class="card-text mb-1"><b>Start Date: </b>@movie.StartDate.ToString("dd MMM, yyyy")</p>
-            <p class="card-text mb-1"><b>End Date: </b>@movie.EndDate.ToString("dd MMM, yyyy")</p>
-            <p class="card-text mb-0">
-                <b>Status: </b>
+                            <div class="col-md-6">
+                                    <div class="card-body d-flex flex-column h-100">
+            <div class="flex-grow-1 mb-2">
+                <p class="card-text clamp-4-lines">
+                                    @movie.Description
+                </p>
+            </div>
+
+            <div>
+                <p class="card-text mb-1"><b>Cinema: </b>@movie.Cinema.Name</p>
+                <p class="card-text mb-1"><b>Category: </b>@movie.MovieCategory</p>
+                <p class="card-text mb-1"><b>Start Date: </b>@movie.StartDate.ToString("dd MMM, yyyy")</p>
+                <p class="card-text mb-1"><b>End Date: </b>@movie.EndDate.ToString("dd MMM, yyyy")</p>
+                <p class="card-text mb-0">
+                    <b>Status: </b>
                                     @if (DateTime.Now >= movie.StartDate && DateTime.Now <= movie.EndDate)
                                     {
-                                                <span class="badge bg-success text-white" style="font-size: 0.60rem;">AVAILABLE</span>
+                                                        <span class="badge bg-success text-white" style="font-size: 0.60rem;">AVAILABLE</span>
 
-                        @* <span class="badge bg-success text-white small">AVAILABLE</span> *@
+                                        @* <span class="badge bg-success text-white small">AVAILABLE</span> *@
                                     }
                                     else if (DateTime.Now > movie.EndDate)
                                     {
-                                <span class="badge bg-danger text-white" style="font-size: 0.60rem;">EXPIRED</span>
+                                        <span class="badge bg-danger text-white" style="font-size: 0.60rem;">EXPIRED</span>
                                     }
                                     else
                                     {
-                                <span class="badge bg-primary text-white" style="font-size: 0.60rem;">UPCOMING</span>
+                                        <span class="badge bg-primary text-white" style="font-size: 0.60rem;">UPCOMING</span>
                                     }
-            </p>
+                </p>
+            </div>
         </div>
-    </div>
 
+                            </div>
                         </div>
-                    </div>
 
-                       <div class="card-footer bg-light">
+                           <div class="card-footer bg-light">
                     @if (DateTime.Now <= movie.EndDate)
                     {
-                <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-inline">
-                    <input type="hidden" name="movieId" value="@movie.Id" />
-                    <button type="submit" class="btn btn-success btn-sm text-white">
-                        <i class="fa-solid fa-cart-plus"></i> Add to Cart (Price: NRs. @movie.Price.ToString("N2")
-                    </button>
-                </form>
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-inline">
+                            <input type="hidden" name="movieId" value="@movie.Id" />
+                            <button type="submit" class="btn btn-success btn-sm text-white">
+                                <i class="fa-solid fa-cart-plus"></i> Add to Cart (Price: NRs. @movie.Price.ToString("N2")
+                            </button>
+                        </form>
                     }
                     else
                     {
-                <a class="btn btn-secondary btn-sm text-white disabled" href="javascript:void(0);">
-                    <i class="fa-solid fa-cart-plus"></i> Offer Expired
-                </a>
+                        <a class="btn btn-secondary btn-sm text-white disabled" href="javascript:void(0);">
+                            <i class="fa-solid fa-cart-plus"></i> Offer Expired
+                        </a>
                     }
 
-        <a class="btn btn-outline-primary btn-sm float-end"
-           asp-action="Details"
-           asp-route-id="@movie.Id">
-            <i class="fa-solid fa-circle-info"></i> Show Details
-        </a>
-    </div>
+            <a class="btn btn-outline-primary btn-sm float-end"
+               asp-action="Details"
+               asp-route-id="@movie.Id">
+                <i class="fa-solid fa-circle-info"></i> Show Details
+            </a>
+        </div>
+                    </div>
                 </div>
-            </div>
     }
 </div>
 
@@ -128,3 +171,25 @@
         <i class="fa-solid fa-plus"></i> Add New
     </a>
 </div>
+
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#cinemaDropdown').change(function () {
+                var cinemaId = $(this).val();
+                $('#movieDropdown').empty().append('<option value="">-- Select Movie --</option>');
+
+                if (cinemaId) {
+                    $.getJSON('/Movie/GetMoviesByCinema', { cinemaId: cinemaId }, function (data) {
+                        $.each(data, function (index, movie) {
+                            $('#movieDropdown').append('<option value="' + movie.id + '">' + movie.name + '</option>');
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+}
