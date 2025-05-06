@@ -114,12 +114,30 @@
                 <div class="col-md-12">
                     <div class="card-footer">
                         <p class="card-text">
-                            <a class="btn btn-outline-primary float-right" asp-action="Index">
+                            
+                            @*<a class="btn btn-success text-white  @((DateTime.Now > Model.EndDate) ? "disabled" : "") float-end" 
+                               asp-controller="Orders" 
+                               asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id"><i class="fa-solid fa-cart-plus"></i> Add to Cart (Price NRs. @Model.Price)</a> *@
+                              
+                            @if (DateTime.Now <= Model.EndDate)
+                            {
+                    <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-inline">
+                        <input type="hidden" name="movieId" value="@Model.Id" />
+                        <button type="submit" class="btn btn-success  text-white float-end">
+                            <i class="fa-solid fa-cart-plus"></i> Add to Cart (Price: NRs. @Model.Price.ToString("N2")
+                        </button>
+                    </form>
+                            }
+                            else
+                            {
+                    <a class="btn btn-secondary text-white float-end disabled" href="javascript:void(0);">
+                        <i class="fa-solid fa-cart-plus"></i> Offer Expired
+                    </a>
+                            }
+                             <a class="btn btn-outline-primary" asp-action="Index">
                                <i class="fa-solid fa-arrow-left"></i> Back to List
                             </a>
-                            <a class="btn btn-success text-white  @((DateTime.Now > Model.EndDate) ? "disabled" : "") float-end" 
-                               asp-controller="Orders" 
-                               asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id"><i class="fa-solid fa-cart-plus"></i> Add to Cart (Price NRs. @Model.Price)</a>
+                            
                         </p>
                     </div>
                 </div>
