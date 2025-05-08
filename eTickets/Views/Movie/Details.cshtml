@@ -23,8 +23,8 @@
                             <div>
                         <h5 class="card-title">
                                     @Model.Name
-                                      <a class="text-white float-end mx-2" asp-controller="Movie" asp-action="Delete" asp-route-id="@Model.Id">
-                               <i class="fa-solid fa-trash"></i>
+                                      <a class="text-white float-end mx-2" asp-controller="Movie" asp-action="Delete" asp-route-id="@Model.Id" style="color:red;">
+                               <i class="fa-solid fa-trash" style="color:red;"></i>
                             </a>
                             <a class="text-white float-end mx-2" asp-controller="Movie" asp-action="Edit" asp-route-id="@Model.Id">
                                 <i class="fa-solid fa-pen-to-square"></i>

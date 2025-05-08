@@ -1,6 +1,9 @@
 using eTickets.Data;
 using eTickets.Data.Services;
-using Microsoft.EntityFrameworkCore; // Add this using directive at the top of the file
+using eTickets.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options; // Add this using directive at the top of the file
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +15,21 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // Ensure the Microsoft.EntityFrameworkCore.SqlServer package is installed
 
+builder.Services.AddIdentity<Users, IdentityRole>(options =>
+{
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = true;
+    options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+}).AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+    
+
+
+   
 //Dependency Injection
 builder.Services.AddScoped<IActorService, ActorService>();
 builder.Services.AddScoped<IProducerService, ProducerService>();
@@ -48,7 +66,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Movie}/{action=Index}/{id?}")
+    pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 AppDbInitializer.Seed(app); 
