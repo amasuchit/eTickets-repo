@@ -1,0 +1,98 @@
+﻿@model BookingViewModel
+@{
+    ViewData["Title"] = "Book";
+}
+
+<div class="row mt-4">
+	<div class= "col-md-8 offset-2">
+		
+	<form asp-action="Book" method="post" id="bookingForm">
+	<table class="table table-hover table-striped" id="bookingTable">
+		<thead class="table-primary">
+			<tr>
+				<th class="col-md-2">Cinema</th>
+                <th class="col-md-2">Movie</th>
+                <th class="col-md-1">Price</th>
+                <th class="col-md-1">Action</th>
+			</tr>
+		</thead>
+		<tbody id="bookingRows">
+						@Html.Partial("_BookingRowPartial", new BookingRowViewModel())
+		</tbody>
+	</table>
+    <button type="button" id="addRow" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Row</button>
+
+	<div class="mt-3">
+		<strong>Total Cost:</strong> NRs. <span id="totalCost">0.00</span>
+	</div>
+	
+</form>
+	
+
+	</div>
+</div>
+
+@section Scripts {
+        <script>
+            let rowIndex = 1;
+
+            function bindEvents(row) {
+                row.find('#cinemaDropdown').change(function () {
+                    const cinemaId = $(this).val();
+                    const movieDropdown = row.find('#movieDropdown');
+                    const priceField = row.find('.price-field');
+                    priceField.text('0.00');
+
+                    $.getJSON('/Book/GetMoviesByCinema', { cinemaId: cinemaId }, function (data) {
+                        movieDropdown.empty();
+                        movieDropdown.append('<option value="">-- Select Movie --</option>');
+                        data.forEach(movie => {
+                            movieDropdown.append(`<option value="${movie.id}" data-price="${movie.price}">${movie.name}</option>`);
+                        });
+                    });
+                });
+
+                row.find('#movieDropdown').change(function () {
+                    const price = $(this).find(':selected').data('price') || 0;
+                    row.find('.price-field').text(price.toFixed(2));
+                    updateTotal();
+                });
+
+                row.find('.remove-row').click(function () {
+                    row.remove();
+                    updateTotal();
+                });
+            }
+
+            function updateTotal() {
+                let total = 0;
+                $('.price-field').each(function () {
+                    total += parseFloat($(this).text()) || 0;
+                });
+                $('#totalCost').text(total.toFixed(2));
+            }
+
+            $('#addRow').click(function () {
+                $.get('/Book/AddRowPartial', function (html) {
+                    const newRow = $(html);
+                    $('#bookingRows').append(newRow);
+                    bindEvents(newRow);
+                });
+            });
+
+            $(document).ready(function () {
+                bindEvents($('#bookingRows tr'));
+            });
+        </script>
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -11,7 +11,7 @@
 		<form asp-action="Edit" asp-controller="Movie" method="Post">
 			@Html.AntiForgeryToken()
 
-			@Html.Partial("Partial/_MovieCreateEdit", Model)
+			@Html.Partial("_MovieCreateEdit", Model)
 			@* <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 			<input type="hidden" asp-for="Id"/>

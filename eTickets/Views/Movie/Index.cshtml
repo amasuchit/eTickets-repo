@@ -178,11 +178,13 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
+                $('#movieDropdown').prop('disabled', true);
             $('#cinemaDropdown').change(function () {
                 var cinemaId = $(this).val();
                 $('#movieDropdown').empty().append('<option value="">-- Select Movie --</option>');
 
                 if (cinemaId) {
+                        $('#movieDropdown').prop('disabled', false);
                     $.getJSON('/Movie/GetMoviesByCinema', { cinemaId: cinemaId }, function (data) {
                         $.each(data, function (index, movie) {
                             $('#movieDropdown').append('<option value="' + movie.id + '">' + movie.name + '</option>');
