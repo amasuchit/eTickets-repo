@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace eTickets.Controllers
 {
 
-    [Authorize(Roles ="Admin")]
+    
     public class MovieController : Controller
     {
         private readonly IMovieService service;
@@ -23,7 +23,7 @@ namespace eTickets.Controllers
             _cinemaService = cinemaService;
         }
 
-        [Authorize(Roles ="User")]
+        
         public async Task<IActionResult> Index(int? cinemaId, int? movieId)
         {
             var movies = await service.GetFilteredMoviesAsync(cinemaId, movieId);
@@ -46,6 +46,7 @@ namespace eTickets.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             var fordropdown= await service.DropDownForMovies();
@@ -54,6 +55,7 @@ namespace eTickets.Controllers
             
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(MovieViewModel movieViewModel)
         {
 
@@ -82,6 +84,7 @@ namespace eTickets.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var datafromdb = await service.GetMovieByIdAsync(id);
@@ -112,6 +115,7 @@ namespace eTickets.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(MovieViewModel movieViewModel)
         {
             
@@ -129,6 +133,7 @@ namespace eTickets.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             if (id == 0)
@@ -168,6 +173,7 @@ namespace eTickets.Controllers
 
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var result = await service.GetMovieByIdAsync(id);
