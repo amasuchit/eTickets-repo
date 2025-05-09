@@ -2,6 +2,7 @@
 using eTickets.Models;
 using eTickets.Utilities;
 using eTickets.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 public class CartController : Controller
@@ -28,6 +29,7 @@ public class CartController : Controller
 
     // POST: /Cart/AddToCart
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddToCart(int movieId)
     {
         // Get the movie from the database

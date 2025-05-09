@@ -1,6 +1,6 @@
 ﻿@model Movie
 @{
-	ViewData["Title"] = "Movie Details";
+    ViewData["Title"] = "Movie Details";
 }
 
 
@@ -11,7 +11,7 @@
                 <div class="col-md-12">
                     <div class="card-header text-white bg-primary">
                         <p class="card-text">
-                           @*  <div>
+                            @*  <div>
                                 <h5 class="card-title">
                                     @Model.Name
                             </h5>
@@ -19,16 +19,20 @@
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
                             </div> *@
-                            
+
                             <div>
-                        <h5 class="card-title">
+                                <h5 class="card-title">
                                     @Model.Name
-                                      <a class="text-white float-end mx-2" asp-controller="Movie" asp-action="Delete" asp-route-id="@Model.Id" style="color:red;">
-                               <i class="fa-solid fa-trash" style="color:red;"></i>
-                            </a>
-                            <a class="text-white float-end mx-2" asp-controller="Movie" asp-action="Edit" asp-route-id="@Model.Id">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                            <a class="text-white float-end mx-2" asp-controller="Movie" asp-action="Delete" asp-route-id="@Model.Id" style="color:red;">
+                                   <i class="fa-solid fa-trash" style="color:red;"></i>
+                                </a>
+                                <a class="text-white float-end mx-2" asp-controller="Movie" asp-action="Edit" asp-route-id="@Model.Id">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a> 
+                                    }
+                                   
                           
                         </h5>
                     </div>

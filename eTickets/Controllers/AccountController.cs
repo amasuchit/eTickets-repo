@@ -2,6 +2,7 @@
 using eTickets.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Packaging.Signing;
 using System.Threading.Tasks;
 
 namespace eTickets.Controllers
@@ -63,6 +64,7 @@ namespace eTickets.Controllers
                 var result = await userManager.CreateAsync(users, viewModel.Password);
                 if (result.Succeeded)
                 {
+                    await userManager.AddToRoleAsync(users, "User");
                     return RedirectToAction("Login", "Account");
                 }
                 else
@@ -79,13 +81,88 @@ namespace eTickets.Controllers
         }
 
 
-         public IActionResult VerifyEmail()
+        public IActionResult VerifyEmail()
         {
             return View();
         }
-          public IActionResult ChangePassword()
+
+        [HttpPost]
+        public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel verifyViewModel)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByNameAsync(verifyViewModel.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Email not found");
+                    return View(verifyViewModel);
+                }
+                else
+                {
+                    return RedirectToAction("ChangePassword", "Account", new { username = user.UserName });
+                   
+                }
+            }
+            return View(verifyViewModel);
+        }
+
+
+          public IActionResult ChangePassword(string username)
+        {
+            if(string.IsNullOrEmpty(username))
+            {
+                return RedirectToAction("VerifyEmail","Account");
+            }
+            return View(new ChangePasswordViewModel { Email= username});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePasswordModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByNameAsync(changePasswordModel.Email);
+                if (user != null)
+                {
+                    var result = await userManager.RemovePasswordAsync(user);
+                    if (result.Succeeded)
+                    {
+                        result = await userManager.AddPasswordAsync(user, changePasswordModel.NewPassword);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("Login", "Account");
+                        }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+                            return View(changePasswordModel);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Email Not Found");
+                        return View(changePasswordModel);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Something's wrong. Try Again!");
+                    return View(changePasswordModel);
+                }
+
+            }
+            return View(changePasswordModel);
+        }
+
+
+
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Movie");
         }
 
     }

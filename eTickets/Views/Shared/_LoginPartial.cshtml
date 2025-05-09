@@ -1,9 +1,73 @@
 ﻿@using Microsoft.AspNetCore.Identity;
+@using eTickets.Models
+@using eTickets.Utilities
+@using eTickets.Data
 @inject	SignInManager<Users> signInManager;
+
+
+@{
+	// Get the current controller name
+	var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+
+	// Only get cart data if we're in the Movie or Cart controller
+	List<CartItem> cart = null;
+	int cartItemCount = 0;
+
+	if (controllerName == "Movie" || controllerName == "Cart")
+	{
+		cart = Context.Session.GetObjectFromJson<List<CartItem>>("Cart");
+		cartItemCount = cart?.Count ?? 0;
+	}
+}
+
+
+
 
 	<ul class="navbar-nav ms-auto">
 	@if (signInManager.IsSignedIn(User))
 	{
+
+			
+		@if (User.IsInRole("Admin"))
+		{
+			<li class="nav-item">
+				<span class="nav-link text-white">Hello, Admin!</span>
+			</li>
+		}
+		else
+		{
+			<li class="nav-item">
+				<span class="badge bg-secondary ms-2">Hello, @User.Identity.Name!</span>
+			</li>
+		}
+		
+			
+							<li class="nav-item">
+								<a class="nav-link text-white" asp-controller="Book" asp-action="Index">
+									<i class="<i class="fa-solid fa-cart-plus"></i> Book
+								</a>
+							</li>
+					
+
+		@if (controllerName == "Movie" || controllerName == "Cart")
+		{
+
+							<ul class="navbar-nav ms-auto">
+								<li class="nav-item">
+					
+									<a class="nav-link text-white" asp-controller="Cart" asp-action="Index">
+										<i class="fa-solid fa-cart-shopping"></i> Cart
+						@if (cartItemCount > 0)
+						{
+													<span class="badge bg-danger rounded-pill cart-count">@cartItemCount</span>
+						}
+									</a>
+								</li>
+							</ul>
+		}
+
+
+
 				<li class="nav-item">
 					<a class="nav-link text-white" asp-controller="Account" asp-action="Logout">
 						<i class="fa-solid fa-right-from-bracket"></i> Logout
@@ -19,7 +83,7 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link text-white" asp-controller="Account" asp-action="Register">
-						<i class="fa-solid fa-right-to-bracket"></i> Register
+							<i class="fa-solid fa-pen-to-square"></i> Register
 					</a>
 				</li>
 	}
