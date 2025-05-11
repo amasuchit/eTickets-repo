@@ -1,0 +1,76 @@
+﻿@model MovieFilterViewModel
+
+
+
+<link rel="stylesheet" href="~/css/newcard.css" asp-append-version="true" />
+
+<div class="container">
+	<div class="row">
+		@foreach (var movie in Model.FilteredMovies)
+		{
+			
+
+			
+			<div class="col-md-3 col-xs-6 mb-4">
+					<div class="card">
+						
+						<img src="@movie.ImageURL" class="card-img-top" alt="@movie.Name" />
+						<div class="descriptions">
+							
+							@if (User.IsInRole("Admin"))
+							{
+								<a class="text-white float-end" asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">
+									<i class="fa-solid text-black fa-pen-to-square"></i></a>
+							}
+						<a asp-action="Details" asp-controller="Movie" asp-route-id="@movie.Id" style="text-decoration:none; color:black;">
+							<h2 class="mb-2">@movie.Name</h2>
+							<p class="card-text mb-1">@movie.Description</p>
+							<p class="card-text mb-1"><b>Category: </b>@movie.MovieCategory</p>
+							<p class="card-text mb-1"><b>Start Date: </b>@movie.StartDate.ToString("dd MMM, yyyy")</p>
+							<p class="card-text mb-1"><b>End Date: </b>@movie.EndDate.ToString("dd MMM, yyyy")</p>
+							<p class="card-text mb-1">
+								<b>Status: </b>
+							@if (DateTime.Now >= movie.StartDate && DateTime.Now <= movie.EndDate)
+							{
+																				<span class="badge bg-success text-white" style="font-size: 0.60rem;">AVAILABLE</span>
+
+
+							}
+							else if (DateTime.Now > movie.EndDate)
+							{
+																				<span class="badge bg-danger text-white" style="font-size: 0.60rem;">EXPIRED</span>
+							}
+							else
+							{
+																				<span class="badge bg-primary text-white" style="font-size: 0.60rem;">UPCOMING</span>
+							}
+							</p>
+							<div style="position:fixed; bottom:15px; right:15px;">
+								@if (DateTime.Now <= movie.EndDate)
+								{
+															<form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-inline">
+																<input type="hidden" name="movieId" value="@movie.Id" />
+																<button type="submit" class="btn btn-success  text-white">
+																	<i class="fa-solid fa-cart-plus"></i> 
+																</button>
+															</form>
+								}
+								else
+								{
+															<a class="btn btn-danger btn-sm text-white disabled" href="javascript:void(0);">
+																<i class="fa-solid fa-cart-plus"></i> Offer Expired
+															</a>
+								}
+							</div>
+								</a>
+						</div>
+					</div>
+				</div> 	
+		}
+	</div>
+</div>
+
+
+
+
+

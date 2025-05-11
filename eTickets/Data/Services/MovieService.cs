@@ -147,7 +147,8 @@ namespace eTickets.Data.Services
         public async Task<List<Movie>> GetFilteredMoviesAsync(int? cinemaId, int? movieId)
         {
             var moviesQuery = context.Movies
-                .Include(m => m.Cinema) // Include whatever you need
+                .Include(m => m.Cinema)
+                .Include(a=>a.Actors_Movies)// Include whatever you need
                 .AsQueryable();
 
             if (cinemaId.HasValue)

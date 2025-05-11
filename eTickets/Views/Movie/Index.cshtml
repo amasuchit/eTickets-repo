@@ -49,12 +49,17 @@
 
 <br />
 
+
 <div class="row my-5 mb-5">
-    @foreach (var movie in Model.FilteredMovies)
+    @await Html.PartialAsync("_cardview"); 
+
+    @* 
+@foreach (var movie in Model.FilteredMovies)
     {
         <div class="col-md-4 d-flex col-xs-6 border-primary mb-3">
             <div class="card h-100 d-flex flex-column mb-3 w-100">
-                <div class="card-header bg-primary text-white">
+                 
+               <div class="card-header bg-primary text-white">
                     <h5 class="card-title mb-0">
                         <a class="text-white" asp-action="Details" asp-route-id="@movie.Id"> @movie.Name</a>
                         @if (User.IsInRole("Admin"))
@@ -94,7 +99,7 @@
                                     {
                                         <span class="badge bg-success text-white" style="font-size: 0.60rem;">AVAILABLE</span>
 
-                                        @* <span class="badge bg-success text-white small">AVAILABLE</span> *@
+                                        
                                     }
                                     else if (DateTime.Now > movie.EndDate)
                                     {
@@ -133,11 +138,12 @@
                     asp-route-id="@movie.Id">
                         <i class="fa-solid fa-circle-info"></i> Show Details
                     </a>
-                </div>
+                </div> 
             </div>
         </div>
-    }
+    } 
 </div>
+*@
 @if (User.IsInRole("Admin"))
 {
         <div style="position:fixed; bottom:65px; right:65px;">
