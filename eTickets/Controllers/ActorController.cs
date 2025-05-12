@@ -71,7 +71,7 @@ namespace eTickets.Controllers
         }
 
 
-        [Authorize(Roles = "Admin,User")]
+       
         public async Task<IActionResult> Details(int id, int? movieId)
         {
             if (id == 0)
