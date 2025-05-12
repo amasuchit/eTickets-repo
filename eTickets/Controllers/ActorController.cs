@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     public class ActorController : Controller
     {
 
@@ -20,7 +20,7 @@ namespace eTickets.Controllers
             this.service = service;
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var actorsinDb = await service.GetAllAsync();
@@ -41,14 +41,16 @@ namespace eTickets.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
-
             return View();
         }
 
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([Bind("FullName,ProfilePictureURL,Bio")] ActorViewModel actorViewModel)
         {
@@ -69,7 +71,8 @@ namespace eTickets.Controllers
         }
 
 
-        public async Task<IActionResult> Details(int id)
+        [Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> Details(int id, int? movieId)
         {
             if (id == 0)
             {
@@ -80,6 +83,7 @@ namespace eTickets.Controllers
             {
                 return NotFound();
             }
+            ViewBag.MovieId = movieId;
             var actorDetails = new ActorViewModel()
             {
                 Id=detailsfromDb.Id,
@@ -91,6 +95,7 @@ namespace eTickets.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -111,6 +116,7 @@ namespace eTickets.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(ActorViewModel actorViewModel)
         {
@@ -133,6 +139,7 @@ namespace eTickets.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -157,6 +164,7 @@ namespace eTickets.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
