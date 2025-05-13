@@ -16,10 +16,28 @@
         cartItemCount = cart?.Count ?? 0;
     }
 }
+<link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
+<style>
+  .brand { 
+        font-family: 'Merriweather', serif;
+        font-size: 24px;
+        font-weight: bold;
+        margin-right: 20px;
+        text-decoration:none;
+        transition: transform 0.9s ease, text-shadow 0.9s ease;
+}
+
+.brand:hover {
+  transform: scale(1.1);
+  text-shadow: 0 0 8px rgba(0, 123, 255, 0.8); /* blue glow */
+}
+  
+</style>
+
 
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="light">
     <div class="container-fluid">
-        <a class="navbar-brand text-white" asp-controller="Movie" asp-action="Index">eTickets</a>
+        <a class="brand text-white" asp-controller="Movie" asp-action="Index">eMovies</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
